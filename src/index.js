@@ -2,10 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+class InfoSheet extends React.Component {
+    render() {
+        return (
+            <div className="info">
+                <h4>{this.props.name}</h4>
+                <p>Generations: {this.props.generationNumber}</p>
+
+            </div>
+        )
+    }
+}
+
 class Box extends React.Component {
     selectBox = () =>{
         this.props.selectBox(this.props.rows, this.props.cols)
     }
+
+
     render(){
         return (
             <div
@@ -18,6 +32,10 @@ class Box extends React.Component {
 }
 
 class Grid extends React.Component {
+    constructor(){
+        super();
+    }
+
     render(){
         const rowNumber = 14
         const width = this.props.cols * rowNumber;
@@ -38,11 +56,17 @@ class Grid extends React.Component {
                         selectBox = {this.props.selectBox}
                     />
                 )
+
             }
     }
         return (
+
             <div className="grid" style={{width: width}}>
                 {rowsArray}
+                <InfoSheet
+                    name={this.props.name}
+                    generationNumber={this.props.generationNumber}
+                />
             </div>
         );
     }
@@ -51,11 +75,13 @@ class Main extends React.Component {
     constructor() {
         super();
         this.speed = 100;
-        this.rows = 30;
-        this.cols = 50;
+        this.rows = 45;
+        this.cols = 95;
+
 
         this.state = {
             generation: 0,
+            name: "Game Of Life",
             gridFill: Array(this.rows).fill().map(() => Array(this.cols).fill(false))
         }
     }
@@ -121,14 +147,15 @@ class Main extends React.Component {
     render(){
         return (
             <div>
-                <h1>Game of Life</h1>
                 <Grid
                     gridFill={this.state.gridFill}
                     rows ={this.rows}
                     cols ={this.cols}
                     selectBox ={this.selectBox}
+                    name={this.state.name}
+                    generationNumber={this.state.generation}
                 />
-                <h2>Generations: {this.state.generation}</h2>
+
             </div>
         )
     }
