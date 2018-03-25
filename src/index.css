@@ -29,9 +29,12 @@ body {
 }
 
 .center {
-  margin: auto;
-  display: table;
-  margin-top: 10px;
+    position: absolute;
+     margin: auto;
+    display: table;
+    top: 15%;
+    left: 2%;
+    margin-top: 10px;
 }
 
 .grid {

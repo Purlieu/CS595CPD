@@ -1,4 +1,5 @@
 import React from 'react';
+import {ButtonToolbar, MenuItem, DropDownButton} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -66,9 +67,33 @@ class Grid extends React.Component {
                 <InfoSheet
                     name={this.props.name}
                     generationNumber={this.props.generationNumber}
-                />
+                    >
+                </InfoSheet>
             </div>
         );
+    }
+}
+
+class Buttons extends React.Component {
+    render() {
+        return (
+            <div className="center">
+                <ButtonToolbar>
+                    <button className="btn btn-success" bsStyle="success" onClick={this.props.playButton}>
+                        Play
+                    </button>
+                    <button className="btn btn-success" onClick={this.props.pauseButton}>
+                        Pause
+                    </button>
+                    <button className="btn btn-success" onClick={this.props.clear}>
+                        Clear
+                    </button>
+                    <button className="btn btn-success" onClick={this.props.reseed}>
+                        ReSeed
+                    </button>
+                </ButtonToolbar>
+            </div>
+        )
     }
 }
 class Main extends React.Component {
@@ -133,10 +158,26 @@ class Main extends React.Component {
     }
 
     playButton = () => {
-        clearInterval(this.intervalID)
-        this.intervalID = setInterval(this.play, this.speed)
+        clearInterval(this.intervalID);
+        this.intervalID = setInterval(this.play, this.speed);
     }
 
+    pauseButton = () =>{
+        clearInterval(this.intervalID);
+    }
+
+    clear = () => {
+        var grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false))
+        this.setState({
+            gridFill: grid,
+            generation: 0
+        });
+
+    }
+
+    reseed = () => {
+        this.seed();
+    }
 
     componentDidMount(){
         this.seed();
@@ -155,7 +196,12 @@ class Main extends React.Component {
                     name={this.state.name}
                     generationNumber={this.state.generation}
                 />
-
+                <Buttons
+                    playButton={this.playButton}
+                    pauseButton={this.pauseButton}
+                    clear={this.clear}
+                    reseed={this.reseed}
+                />
             </div>
         )
     }
